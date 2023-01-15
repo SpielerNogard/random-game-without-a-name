@@ -4,3 +4,4 @@ signal enemy_spawn
 signal enemy_death
 signal send_player_reference
 signal send_flow_field_reference
+signal player_died

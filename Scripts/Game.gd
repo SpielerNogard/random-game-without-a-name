@@ -2,6 +2,7 @@ extends Node2D
 
 # preload all needed scenes
 var player = preload("res://Scenes/Player.tscn")
+var enemy = preload("res://Scenes/Bat.tscn")
 var test_map = preload("res://Scenes/TestMap.tscn")
 var elapsed_time = 0 # millisecs
 
@@ -47,10 +48,31 @@ func _spawn_player(spawn_pos:Vector2):
 	"""
 	var player1 = player.instance()
 	add_child(player1)
-	player1.global_position.x = spawn_pos.x
-	player1.global_position.y = spawn_pos.y
+	player1.global_position.x = spawn_pos.x - 100
+	player1.global_position.y = spawn_pos.y - 100
 	
 	return player1
+
+func _spawn_enemy(spawn_pos:Vector2):
+	"""
+	Spawn a new enemy at position.
+	
+	Parameters
+	----------
+	spawn_pos : Vector2
+		spawn position of enemy in map.
+	
+	Returns
+	-------
+	enemy : 
+		The spawned enemy instance
+	"""
+	var enemy1 = enemy.instance()
+	add_child(enemy1)
+	enemy1.global_position.x = spawn_pos.x
+	enemy1.global_position.y = spawn_pos.y
+	
+	return enemy1
 
 func get_time() -> int:
 	"""
@@ -63,9 +85,17 @@ func get_time() -> int:
 	
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	Signalbus.connect("player_died", self, "player_died")
+	
 	get_time()
 	var player_spawn = _load_map()
 	var player1 = _spawn_player(player_spawn)
+	
+	for i in range(10):
+		_spawn_enemy(player_spawn + Vector2(i, i))
+
+func player_died(player):
+	get_tree().reload_current_scene()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
