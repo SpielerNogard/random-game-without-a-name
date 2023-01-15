@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=2]
+[gd_scene load_steps=49 format=2]
 
 [ext_resource path="res://Scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Characters/MAIN 1 SS.png" type="Texture" id=2]
@@ -239,7 +239,7 @@ animations = [ {
 "speed": 15.0
 }, {
 "frames": [ SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ) ],
-"loop": true,
+"loop": false,
 "name": "death",
 "speed": 15.0
 }, {
@@ -249,9 +249,9 @@ animations = [ {
 "speed": 15.0
 }, {
 "frames": [ SubResource( 24 ), SubResource( 25 ), SubResource( 26 ) ],
-"loop": true,
+"loop": false,
 "name": "hurt",
-"speed": 15.0
+"speed": 30.0
 }, {
 "frames": [ SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ) ],
 "loop": true,
@@ -274,8 +274,10 @@ animations = [ {
 "speed": 15.0
 } ]
 
+[sub_resource type="RectangleShape2D" id=48]
+
 [node name="KinematicBody2D2" type="KinematicBody2D" groups=["player"]]
-collision_layer = 2
+collision_layer = 0
 collision_mask = 3
 script = ExtResource( 1 )
 
@@ -286,9 +288,20 @@ shape = SubResource( 46 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 47 )
 animation = "walk"
-frame = 5
+frame = 4
 playing = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
 zoom = Vector2( 0.5, 0.5 )
+
+[node name="CollisionWithEnemies" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionWithEnemies"]
+position = Vector2( 0, 2 )
+shape = SubResource( 48 )
+
+[connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
+[connection signal="area_entered" from="CollisionWithEnemies" to="." method="_on_CollisionWithEnemies_area_entered"]

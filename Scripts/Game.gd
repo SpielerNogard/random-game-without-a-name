@@ -85,12 +85,17 @@ func get_time() -> int:
 	
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	Signalbus.connect("player_died", self, "player_died")
+	
 	get_time()
 	var player_spawn = _load_map()
 	var player1 = _spawn_player(player_spawn)
 	
 	for i in range(10):
 		_spawn_enemy(player_spawn + Vector2(i, i))
+
+func player_died(player):
+	get_tree().reload_current_scene()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

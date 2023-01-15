@@ -16,7 +16,8 @@ func _ready():
 
 func _physics_process(delta):
 	var movement_vector = (player.position - self.position).normalized() * movement_speed
-	movement_vector = move_and_slide(movement_vector)
+	movement_vector = move_and_slide(movement_vector, 
+	 Vector2( 0, 0 ), false, 4, 0.785398, false)
 	for i in get_slide_count():
 		var collision = get_slide_collision(i)
 		var collision_body = collision.collider
