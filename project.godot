@@ -14,6 +14,14 @@ config/name="random-game-without-a-name"
 run/main_scene="res://Scenes/Player.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Signalbus="*res://Scripts/Signalbus.gd"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/FlowField/plugin.cfg" )
+
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
@@ -48,6 +56,8 @@ left={
 [layer_names]
 
 2d_physics/layer_1="Map"
+2d_physics/layer_2="Player"
+2d_physics/layer_3="Enemy"
 
 [physics]
 
