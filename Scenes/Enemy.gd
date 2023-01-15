@@ -26,3 +26,7 @@ func _physics_process(delta):
 
 func set_player_reference(player_reference):
 	self.player = player_reference
+
+
+func _on_VisibilityNotifier2D_screen_exited():
+	print("DONT IGNORE ME")
