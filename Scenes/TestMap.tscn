@@ -15,7 +15,3 @@ allow_diagonals = true
 diagonals_need_neighbors = true
 "tile_costs/MainLevBuild.png 0" = 1
 "tile_costs/MainLevBuild.png 1" = 0
-
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( 216, 156 )
-current = true
