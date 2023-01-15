@@ -56,6 +56,10 @@ func attack() -> float:
 	
 func _ready():
 	sprite.play("default")
+	Signalbus.connect("enemy_spawn", self, "set_player_reference")
+
+func set_player_reference():
+	Signalbus.emit_signal("send_player_reference", self)
 
 func _physics_process(delta):
 	_move()
