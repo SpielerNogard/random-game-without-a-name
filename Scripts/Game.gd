@@ -48,8 +48,8 @@ func _spawn_player(spawn_pos:Vector2):
 	"""
 	var player1 = player_scene.instance()
 	add_child(player1)
-	player1.global_position.x = spawn_pos.x - 100
-	player1.global_position.y = spawn_pos.y - 100
+	player1.global_position.x = spawn_pos.x
+	player1.global_position.y = spawn_pos.y
 	
 	return player1
 
