@@ -1,35 +1,40 @@
 extends Node2D
 
-
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-var level = 1
-var weapon_name = "dagger"
-var description = "A Dagger"
-
-var projectiles = 1
-var dmg = 1
-var penetration = 1
-var sprite = null
-var player = null
-
 onready var my_sprite = get_node("Sprite")
-	
-func equip_weapon(player, weapon_name):
-	weapon_name = weapon_name
-	player = player
-	
-func _load_sprite():
-	sprite = load("res://Assets/Weapons/%s.png"%weapon_name)
+onready var attack_area = get_node("Area2D/CollisionShape2D")
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	_load_sprite()
-	pass # Replace with function body.
+var speed = 50
+var bullet_direction = Vector2(1,0)
+var flying = false
+var life_duration = 5
 
-func attack(enemy):
-	my_sprite.texture = sprite
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	attack()
+func attack(dmg, player, direction):
+	flying = true
+	if not attack_area:
+		attack_area = get_node("Area2D/CollisionShape2D")
+	attack_area.disabled = false
+	global_position = player.global_position
+	
+	if direction == 'east':
+		bullet_direction = Vector2(1,0)
+	if direction == 'west':
+		bullet_direction = Vector2(-1, 0)
+	if direction == 'north':
+		bullet_direction = Vector2(0,-1)
+	if direction == 'south':
+		bullet_direction = Vector2(0,1)
+	
+func _physics_process(delta):
+	
+	if flying and life_duration >= 0:
+		global_position += bullet_direction * speed * delta
+		life_duration -= delta
+		rotation_degrees += 300*life_duration*delta
+		
+	if life_duration <=0:
+		queue_free()
+		
+func _on_Area2D_body_entered(body):
+	print(body)
+	if body.is_in_group('enemies'):
+		pass
