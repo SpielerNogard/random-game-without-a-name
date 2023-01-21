@@ -13,6 +13,11 @@ func _ready():
 	Signalbus.connect("send_player_reference", self, "set_player_reference")
 	Signalbus.emit_signal("enemy_spawn")
 
+func get_damage(dmg):
+	print('got dmg')
+	health -= dmg
+	if health <= 0:
+		queue_free()
 
 func _physics_process(delta):
 	var movement_vector = (player.position - self.position).normalized() * movement_speed

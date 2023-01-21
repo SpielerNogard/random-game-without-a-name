@@ -6,16 +6,17 @@ onready var collision_area_for_enemies:Area2D = get_node("CollisionWithEnemies")
 onready var dagger_scene = preload("res://Scenes/Dagger.tscn")
 
 var movement_speed = 250
-var attack_damage = 10
+var dmg_multiplier = 1
 var crit_chance = 0.02
 var crit_dmg = 1.2
 var level = 0
+var dmg = 100
 var health = 100
 var invincibility_time_left = 0
 var max_invincibility_time = 0.5
 var animation_player_lock = false
 
-var attack_speed = 50
+var attack_speed = 1
 var time_since_last_attack = 0
 var hit_direction = 'east'
 
@@ -65,25 +66,8 @@ func take_dmg(amount):
 	if health <= 0:
 		_die()
 
-func attack(delta):
-	time_since_last_attack += delta
-	var time_between_attacks = 60/attack_speed
-	
-	if time_since_last_attack >= time_between_attacks:
-		print('attacked')
-		var weapon_instance = current_equipped_weapon.instance()
-		
-		sprite.play("attack")
-		var current_dmg = attack_damage
-		
-		# check for crit
-		if randf() < crit_chance:
-			current_dmg = attack_damage*crit_dmg
-		
-		weapon_instance.attack(current_dmg, self, hit_direction)
-		add_child(weapon_instance)
-		time_since_last_attack = 0
-		
+func attack():
+	sprite.play("attack")
 	
 func _ready():
 	sprite.play("default")
@@ -93,7 +77,6 @@ func set_player_reference():
 	Signalbus.emit_signal("send_player_reference", self)
 
 func _physics_process(delta):
-	attack(delta)
 	invincibility_time_left -= delta
 	_move(delta)
 

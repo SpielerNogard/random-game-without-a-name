@@ -4,6 +4,7 @@ extends Node2D
 var player_scene = preload("res://Scenes/Player.tscn")
 var enemy_scene = preload("res://Scenes/Bat.tscn")
 var test_map = preload("res://Scenes/TestMap.tscn")
+var weapon_manager_scene = preload("res://Scenes/WeaponManager.tscn")
 var elapsed_time = 0 # millisecs
 
 var MAPS = {
@@ -48,8 +49,8 @@ func _spawn_player(spawn_pos:Vector2):
 	"""
 	var player1 = player_scene.instance()
 	add_child(player1)
-	player1.global_position.x = spawn_pos.x - 100
-	player1.global_position.y = spawn_pos.y - 100
+	player1.global_position.x = spawn_pos.x
+	player1.global_position.y = spawn_pos.y
 	
 	return player1
 
@@ -94,6 +95,11 @@ func get_time() -> int:
 	elapsed_time = Time.get_ticks_msec()
 	
 	return elapsed_time
+
+func _create_weapon_manager(player):
+	var weapon_manager = weapon_manager_scene.instance()
+	add_child(weapon_manager)
+	weapon_manager.add_to_player(player)
 	
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -103,7 +109,7 @@ func _ready():
 	get_time()
 	var player_spawn = _load_map()
 	var player1 = _spawn_player(player_spawn)
-	
+	_create_weapon_manager(player1)
 	for i in range(10):
 		_spawn_enemy(player_spawn + Vector2(i, i))
 
