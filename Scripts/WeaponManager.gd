@@ -108,7 +108,7 @@ func _check_pools():
 		_fill_pool(2)
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	_fill_pool(30)
+	_fill_pool(100)
 	
 func _physics_process(delta):
 	_check_pools()

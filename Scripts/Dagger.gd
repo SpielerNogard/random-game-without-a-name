@@ -49,7 +49,7 @@ func _on_Area2D_body_entered(body):
 	body.get_damage(dagger_dmg)
 
 func _ready():
-	self.attack_speed = 0.5
+	self.attack_speed = 1
 	self.crit_chance = 0.2
 	self.crit_multi = 2
 	self.damage = 20
